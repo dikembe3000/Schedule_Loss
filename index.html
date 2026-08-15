@@ -81,7 +81,7 @@
 
       <section id="teamsView" class="view">
         <div style="margin:0 0 8px"><h2 id="profileTeamName" style="margin:0;font-size:1.45rem;letter-spacing:-.025em">Boston Celtics</h2></div>
-        <div class="factor-matrix-head"><div><h3>Schedule Advantage / Disadvantage Profile</h3><p>Games are grouped by the net difference in active schedule factors versus the opponent; tied factor counts cancel.</p></div></div>
+        <div class="factor-matrix-head"><div><h3>Schedule Advantage / Disadvantage Profile</h3><p>Games are grouped by the net difference in active schedule factors versus the opponent. Qualifying +8.0 pp arena matchups count as one additional factor; tied factor counts cancel.</p></div></div>
         <div class="factor-matrix" id="factorMatrix">
           <article class="factor-card disadvantage-1" data-factor-type="disadvantage" data-factor-level="1" role="button" tabindex="0" aria-pressed="false"><div class="factor-label">1-Factor Disadvantage</div><div class="factor-value" id="disadvantage1">—</div><div class="factor-note">games</div></article>
           <article class="factor-card disadvantage-2" data-factor-type="disadvantage" data-factor-level="2" role="button" tabindex="0" aria-pressed="false"><div class="factor-label">2-Factor Disadvantage</div><div class="factor-value" id="disadvantage2">—</div><div class="factor-note">games</div></article>
@@ -106,7 +106,7 @@
           <div class="panel-head"><div><h2>Arena Advantage Profiles</h2><p>Four-season ATS performance. Team Arena Profile = Home ATS% − Road ATS%. Game-level Arena Advantage triggers when the home team's Home ATS% exceeds the visitor's Road ATS% by at least 8.0 percentage points.</p></div></div>
           <div class="table-wrap"><table id="arenaTable"><thead><tr><th>Team</th><th>Home ATS</th><th>Home Record</th><th>Road ATS</th><th>Road Record</th><th>Team Arena Profile</th><th>Profile Rank</th><th>Profile Tier</th><th>2026–27 Qualifying Home Games</th></tr></thead><tbody id="arenaBody"></tbody></table></div>
         </section>
-        <div class="arena-note"><strong>How this enters Schedule Loss:</strong> when a game's home-team Home ATS% minus the visiting team's Road ATS% is <strong>+8.0 percentage points or greater</strong>, the visitor receives one Arena Disadvantage factor. That increases the home team's relative advantage by one factor in the existing red/green classification matrix. Other schedule factors can still offset or cancel it.</div>
+        <div class="arena-note"><strong>How this enters Schedule Loss:</strong> when a game's home-team Home ATS% minus the visiting team's Road ATS% is <strong>+8.0 percentage points or greater</strong>, the matchup contributes exactly one arena factor: the home team receives an Arena Advantage and the visitor receives an Arena Disadvantage. In the net red/green classification this changes the matchup by one factor, not two, so it is not double-counted. Other schedule factors can still offset or cancel it.</div>
       </section>
 
       <section class="page-note"><h3>Data architecture</h3><p>The page reads <strong>data/schedule-database.json</strong> as the canonical game database and uses <strong>schedule-index-by-date.json</strong> and <strong>schedule-index-by-team.json</strong> for fast calendar and team lookup. This keeps one source of truth while supporting multiple front-end views.</p></section>
@@ -131,7 +131,30 @@ function matchesSpot(c){const v=$('#spotFilter').value;if(v==='ALL')return true;
 function scheduleDisadvantages(c,opp){const items=[];if(c.back_to_back)items.push('B2B');if(c.three_in_four)items.push('3 in 4');if(c.five_in_seven)items.push('5 in 7');if(c.first_home_after_5plus_road_games)items.push('Home after 5+ road');if(c.one_game_homestand)items.push('1-game homestand');if(c.crossing_multiple_time_zones)items.push('2+ hr TZ');if(c.awkward_start_time)items.push('Awkward start');if(c.rest_days_before!=null&&opp?.rest_days_before!=null&&c.rest_days_before<opp.rest_days_before)items.push('Less rest');return items}
 function arenaMatchupDifferential(g){const home=ARENA_MAP.get(g.home),away=ARENA_MAP.get(g.away);if(!home||!away)return null;return Number((home.home.cover_pct-away.away.cover_pct).toFixed(1))}
 function hasArenaAdvantage(g){const diff=arenaMatchupDifferential(g);return diff!=null&&diff>=ARENA_THRESHOLD}
-function gameDisadvantages(g,team){const own=contextFor(g,team),opp=contextFor(g,opponentFor(g,team)),items=[...scheduleDisadvantages(own,opp)];if(team===g.away&&hasArenaAdvantage(g))items.push('Arena disadvantage');return items}
+// A qualifying arena matchup is ONE additional Schedule Loss factor.
+// It is displayed as an advantage for the home team and a disadvantage for the visitor,
+// but is counted only once in the net game comparison (as +1 burden on the road side).
+function arenaFactorForGame(g,team){
+  if(!hasArenaAdvantage(g))return null;
+  if(team===g.home)return {type:'advantage',label:'Arena advantage'};
+  if(team===g.away)return {type:'disadvantage',label:'Arena disadvantage'};
+  return null;
+}
+function gameDisadvantages(g,team){
+  const own=contextFor(g,team),opp=contextFor(g,opponentFor(g,team)),items=[...scheduleDisadvantages(own,opp)];
+  const arena=arenaFactorForGame(g,team);
+  if(arena?.type==='disadvantage')items.push(arena.label);
+  return items;
+}
+function gameAdvantages(g,team){
+  const items=[];
+  const opp=opponentFor(g,team);
+  const ownRest=contextFor(g,team)?.rest_days_before,oppRest=contextFor(g,opp)?.rest_days_before;
+  if(ownRest!=null&&oppRest!=null&&ownRest>oppRest)items.push('More rest');
+  const arena=arenaFactorForGame(g,team);
+  if(arena?.type==='advantage')items.push(arena.label);
+  return items;
+}
 function scheduleLossForGame(g){const awayItems=gameDisadvantages(g,g.away),homeItems=gameDisadvantages(g,g.home);if(awayItems.length===homeItems.length)return null;const lossTeam=awayItems.length>homeItems.length?g.away:g.home;const advantageTeam=lossTeam===g.away?g.home:g.away;return {lossTeam,advantageTeam,lossItems:lossTeam===g.away?awayItems:homeItems,lossCount:Math.max(awayItems.length,homeItems.length),otherCount:Math.min(awayItems.length,homeItems.length)} }
 function resetHeroCardClasses(){const card=$('#nextLossCard');card.className='hero-stat'}
 function renderNextScheduleLoss(){if(!DB)return;resetHeroCardClasses();$('#nextLossLabel').textContent='Next Schedule Loss';$('#nextLossCaption').textContent='The next matchup where one team enters with a greater schedule-disadvantage burden than its opponent.';const now=new Date(),today=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;const next=[...DB.games].filter(g=>g.date>=today).sort((a,b)=>a.date.localeCompare(b.date)||(a.et_time||'').localeCompare(b.et_time||'')).map(g=>({g,sl:scheduleLossForGame(g)})).find(x=>x.sl);if(!next){$('#nextLossDate').textContent='No qualifying game found';$('#nextLossMatchup').textContent='—';$('#nextLossTeam').textContent='No unequal schedule burden in the remaining released games';$('#nextLossFlags').innerHTML='';return}const {g,sl}=next;$('#nextLossDate').textContent=new Date(g.date+'T12:00:00').toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});$('#nextLossMatchup').textContent=`${g.away} @ ${g.home}`;$('#nextLossTeam').innerHTML=`<strong>${sl.lossTeam}</strong> is the schedule-loss side · ${sl.lossCount} condition${sl.lossCount!==1?'s':''} vs ${sl.otherCount}`;$('#nextLossFlags').innerHTML=sl.lossItems.map(f=>`<span class="flag">${f}</span>`).join('');}
