@@ -147,7 +147,7 @@
                 <tr><td>1-Game Homestand</td><td>An actual home-arena game where both the immediately previous and immediately next scheduled games are away from the team's home arena.</td></tr>
                 <tr><td>Home After 5+ Road</td><td>The first game back in the team's home arena immediately after at least five consecutive games played away from its home arena.</td></tr>
                 <tr><td>2+ Hour Time-Zone Change</td><td>The absolute change in venue UTC offset from the previous game is at least two hours on the relevant game dates.</td></tr>
-                <tr><td>Awkward Start</td><td>A preliminary timing flag for a venue-local tip before 1:00 PM or at/after 10:00 PM. This threshold is intentionally tunable.</td></tr>
+                <tr><td>Awkward Start</td><td>A disadvantage only when the game tips <strong>before 1:00 PM or after 8:00 PM in the venue's local time</strong> and the team's home arena is at least <strong>two hours of time-zone offset</strong> away from the game venue on that date. A noon game in New York therefore does not penalize the Knicks, but can penalize a Mountain or Pacific time-zone visitor.</td></tr>
                 <tr><td>Arena Disadvantage</td><td>The home team's historical Home ATS% exceeds the visiting team's historical Road ATS% by at least 8.0 percentage points. The visitor receives one disadvantage factor, producing a one-factor relative arena advantage for the home team.</td></tr>
               </tbody></table></div>
               <p style="margin-top:12px">Each qualifying condition contributes <strong>one factor</strong>. Overlapping congestion conditions can therefore stack: for example, a game can simultaneously be a back-to-back, a 3-in-4, and a 5-in-7.</p>
@@ -221,7 +221,7 @@
 <script>
 const DATA_PATHS={db:'data/schedule-database.json',byDate:'data/schedule-index-by-date.json',byTeam:'data/schedule-index-by-team.json',arena:'data/arena-advantage.json'};
 const TEAM_NAMES={ATL:'Atlanta Hawks',BOS:'Boston Celtics',BKN:'Brooklyn Nets',CHA:'Charlotte Hornets',CHI:'Chicago Bulls',CLE:'Cleveland Cavaliers',DAL:'Dallas Mavericks',DEN:'Denver Nuggets',DET:'Detroit Pistons',GSW:'Golden State Warriors',HOU:'Houston Rockets',IND:'Indiana Pacers',LAC:'LA Clippers',LAL:'Los Angeles Lakers',MEM:'Memphis Grizzlies',MIA:'Miami Heat',MIL:'Milwaukee Bucks',MIN:'Minnesota Timberwolves',NOP:'New Orleans Pelicans',NYK:'New York Knicks',OKC:'Oklahoma City Thunder',ORL:'Orlando Magic',PHI:'Philadelphia 76ers',PHX:'Phoenix Suns',POR:'Portland Trail Blazers',SAC:'Sacramento Kings',SAS:'San Antonio Spurs',TOR:'Toronto Raptors',UTA:'Utah Jazz',WAS:'Washington Wizards'};
-let DB=null,ARENA=null,ARENA_MAP=new Map(),ARENA_THRESHOLD=8.0,DATE_INDEX={},TEAM_INDEX={},GAME_MAP=new Map(),activeView='overview',calendarMonth=new Date(2026,9,1),selectedDate='2026-10-20',selectedTeam='BOS',overviewSort={key:'miles',dir:'desc'};
+let DB=null,ARENA=null,ARENA_MAP=new Map(),ARENA_THRESHOLD=8.0,DATE_INDEX={},TEAM_INDEX={},GAME_MAP=new Map(),TEAM_HOME_TZ=new Map(),activeView='overview',calendarMonth=new Date(2026,9,1),selectedDate='2026-10-20',selectedTeam='BOS',overviewSort={key:'miles',dir:'desc'};
 let teamFactorFilter=null;
 let teamArenaOnly=false;
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -230,6 +230,50 @@ function teamBadge(code){return `<span class="team-badge" data-team="${code}">${
 function teamNameLink(code){return `<button class="team-link" type="button" data-team="${code}">${TEAM_NAMES[code]}</button>`}
 function contextFor(game,team){return game.home===team?game.home_context:game.away_context}
 function opponentFor(game,team){return game.home===team?game.away:game.home}
+function timeZoneOffsetHours(timeZone,dateStr){
+  if(!timeZone||!dateStr)return null;
+  const probe=new Date(`${dateStr}T12:00:00Z`);
+  const parts=new Intl.DateTimeFormat('en-US',{timeZone,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).formatToParts(probe);
+  const obj=Object.fromEntries(parts.filter(p=>p.type!=='literal').map(p=>[p.type,p.value]));
+  const asUTC=Date.UTC(Number(obj.year),Number(obj.month)-1,Number(obj.day),Number(obj.hour),Number(obj.minute),Number(obj.second));
+  return (asUTC-probe.getTime())/3600000;
+}
+function localStartHour(localTime){
+  if(!localTime)return null;
+  const m=String(localTime).trim().match(/^(\d{1,2}):(\d{2})\s*([AP]M)$/i);
+  if(!m)return null;
+  let h=Number(m[1])%12;if(m[3].toUpperCase()==='PM')h+=12;
+  return h+Number(m[2])/60;
+}
+function buildTeamHomeTimeZones(){
+  TEAM_HOME_TZ=new Map();
+  for(const g of DB.games){
+    if(!g.neutral_site&&g.home&&g.venue?.timeZone&&!TEAM_HOME_TZ.has(g.home))TEAM_HOME_TZ.set(g.home,g.venue.timeZone);
+  }
+}
+function awkwardStartForGame(game,team){
+  const start=localStartHour(game.local_time);
+  const homeTz=TEAM_HOME_TZ.get(team),venueTz=game.venue?.timeZone;
+  if(start==null||!homeTz||!venueTz)return {qualifies:false,hoursAway:null,reason:null};
+  const homeOffset=timeZoneOffsetHours(homeTz,game.date),venueOffset=timeZoneOffsetHours(venueTz,game.date);
+  if(homeOffset==null||venueOffset==null)return {qualifies:false,hoursAway:null,reason:null};
+  const hoursAway=Math.abs(homeOffset-venueOffset);
+  const unusualTime=start<13||start>20;
+  const qualifies=unusualTime&&hoursAway>=2;
+  const reason=qualifies?`${game.local_time} local start; ${hoursAway.toFixed(0)}-hour time-zone difference from ${team}'s home arena`:null;
+  return {qualifies,hoursAway,reason};
+}
+function recomputeAwkwardStarts(){
+  buildTeamHomeTimeZones();
+  for(const g of DB.games){
+    for(const team of [g.away,g.home]){
+      const c=contextFor(g,team),r=awkwardStartForGame(g,team);
+      c.awkward_start_time=r.qualifies;
+      c.awkward_start_reason=r.reason;
+      c.awkward_start_home_vs_venue_time_zone_difference_hours=r.hoursAway;
+    }
+  }
+}
 function spotFlags(c){const f=[];if(c.back_to_back)f.push(['B2B','alert']);if(c.three_in_four)f.push(['3 in 4','alert']);if(c.five_in_seven)f.push(['5 in 7','alert']);if(c.first_home_after_5plus_road_games)f.push(['Home after 5+ road','home']);if(c.one_game_homestand)f.push(['1-game home','home']);if(c.crossing_multiple_time_zones)f.push(['2+ hr TZ','']);if(c.awkward_start_time)f.push(['Awkward start','']);return f}
 function flagsHTML(c){const f=spotFlags(c);return f.length?f.map(x=>`<span class="flag ${x[1]}">${x[0]}</span>`).join(''):'<span class="muted">—</span>'}
 function matchesSpot(c){const v=$('#spotFilter').value;if(v==='ALL')return true;return {B2B:c.back_to_back,'3IN4':c.three_in_four,'5IN7':c.five_in_seven,ROAD_RETURN:c.first_home_after_5plus_road_games,ONE_HOME:c.one_game_homestand,TZ:c.crossing_multiple_time_zones,AWKWARD:c.awkward_start_time}[v]||false}
@@ -284,7 +328,7 @@ function clearTeamScheduleFilters(){teamFactorFilter=null;teamArenaOnly=false;$(
 function showArenaFactors(){teamFactorFilter=null;teamArenaOnly=true;$('#spotFilter').value='ALL';renderTeam()}
 function renderTeam(){const team=selectedTeam;$('#teamSelect').value=team;$('#profileTeamName').textContent=TEAM_NAMES[team];renderFactorMatrix(team);$('#teamTitle').textContent=TEAM_NAMES[team];const total=TEAM_INDEX[team]?.length||0;let ids=TEAM_INDEX[team]||[],games=ids.map(id=>GAME_MAP.get(id)).filter(Boolean).filter(g=>matchesSpot(contextFor(g,team))).filter(g=>gameMatchesFactorFilter(g,team)).filter(g=>!teamArenaOnly||hasArenaAdvantage(g));let filterText='';if(teamFactorFilter){const label=teamFactorFilter.level===4?'4+':teamFactorFilter.level;filterText=` · ${label}-factor ${teamFactorFilter.type} games only`}if(teamArenaOnly)filterText=' · arena advantage/disadvantage games only';$('#teamSubtitle').textContent=`${games.length} displayed games · ${total} currently assigned regular-season games${filterText}`;$('#viewArenaFactors').classList.toggle('active',teamArenaOnly);$('#teamBody').innerHTML=games.map(g=>{const c=contextFor(g,team),opp=opponentFor(g,team),ha=g.home===team?'H':'A';return `<tr><td><button class="date-link" type="button" data-date="${g.date}">${new Date(g.date+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',weekday:'short'})}</button></td><td><div class="team">${teamBadge(opp)}${teamNameLink(opp)}</div></td><td>${ha}</td><td>${g.local_time}</td><td>${g.venue.name}</td><td>${c.rest_days_before==null?'—':c.rest_days_before+'d'}</td><td>${miles(c.miles_traveled_from_previous_game)}</td><td>${c.time_zone_offset_change_hours_from_previous_game==null?'—':`${c.time_zone_offset_change_hours_from_previous_game>0?'+':''}${c.time_zone_offset_change_hours_from_previous_game}h`}</td><td style="text-align:left">${flagsHTML(c)}${team===g.away&&hasArenaAdvantage(g)?'<span class="flag alert">Arena disadvantage</span>':team===g.home&&hasArenaAdvantage(g)?'<span class="flag home">Arena advantage</span>':''}</td><td>${g.home===team&&arenaMatchupDifferential(g)!=null?`+${arenaMatchupDifferential(g).toFixed(1)} pp`:g.away===team&&arenaMatchupDifferential(g)!=null?`${arenaMatchupDifferential(g)>=0?'+':''}${arenaMatchupDifferential(g).toFixed(1)} pp`:'—'}</td></tr>`}).join('')||'<tr><td colspan="10" class="empty">No games match this filter.</td></tr>';renderFactorMatrix(team)}
 function renderArena(){if(!ARENA)return;const rows=[...ARENA.teams].sort((a,b)=>b.home_minus_away_cover_pct_points-a.home_minus_away_cover_pct_points);const qualifyingByHome={};for(const g of DB.games){if(hasArenaAdvantage(g))qualifyingByHome[g.home]=(qualifyingByHome[g.home]||0)+1}$('#arenaThreshold').textContent=`+${ARENA_THRESHOLD.toFixed(1)}`;const top=rows[0];$('#arenaTopTeam').textContent=top?.team||'—';$('#arenaTopDiff').textContent=top?`${top.home_minus_away_cover_pct_points>0?'+':''}${top.home_minus_away_cover_pct_points.toFixed(1)} pp · ${top.team_name}`:'Home ATS vs own road ATS';$('#arenaQualifyingGames').textContent=DB.games.filter(hasArenaAdvantage).length;$('#arenaWindow').textContent='2022–26';$('#arenaBody').innerHTML=rows.map(r=>{const d=r.home_minus_away_cover_pct_points,tier=r.top_15_pct_arena_profile?'Top 15%':r.top_20_pct_arena_profile?'Top 20%':d>0?'Positive':d<0?'Negative':'Neutral',cls=r.top_15_pct_arena_profile?'strong':r.top_20_pct_arena_profile||d>0?'positive':d<0?'negative':'neutral';return `<tr><td><div class="team">${teamBadge(r.team)}${teamNameLink(r.team)}</div></td><td><strong>${r.home.cover_pct.toFixed(1)}%</strong></td><td>${r.home.ats_record}</td><td><strong>${r.away.cover_pct.toFixed(1)}%</strong></td><td>${r.away.ats_record}</td><td><span class="${d>=0?'arena-diff-positive':'arena-diff-negative'}">${d>0?'+':''}${d.toFixed(1)} pp</span></td><td>#${r.arena_differential_rank}</td><td><span class="arena-profile-pill ${cls}">${tier}</span></td><td>${qualifyingByHome[r.team]||0}</td></tr>`}).join('')}
-async function load(){try{const [db,dateIdx,teamIdx,arena]=await Promise.all([fetch(DATA_PATHS.db).then(r=>{if(!r.ok)throw Error(`${DATA_PATHS.db}: ${r.status}`);return r.json()}),fetch(DATA_PATHS.byDate).then(r=>r.json()),fetch(DATA_PATHS.byTeam).then(r=>r.json()),fetch(DATA_PATHS.arena).then(r=>{if(!r.ok)throw Error(`${DATA_PATHS.arena}: ${r.status}`);return r.json()})]);DB=db;ARENA=arena;ARENA_MAP=new Map(ARENA.teams.map(t=>[t.team,t]));ARENA_THRESHOLD=Number(ARENA.metadata?.empirical_thresholds?.recommended_game_level_arena_advantage_cutoff_pct_points??8.0);DATE_INDEX=dateIdx;TEAM_INDEX=teamIdx;GAME_MAP=new Map(DB.games.map(g=>[g.id,g]));populateTeams();$('#seasonPill').textContent=`${DB.metadata.season} Season`;renderNextScheduleLoss();$('#loading').hidden=true;showView('overview')}catch(err){$('#loading').hidden=true;$('#error').hidden=false;$('#error').innerHTML=`<strong>Could not load the JSON files.</strong><br>${err.message}<br><br>Open this site through a web server (including GitHub Pages), not by double-clicking the HTML file, because browsers block local <code>fetch()</code> requests.`}}
+async function load(){try{const [db,dateIdx,teamIdx,arena]=await Promise.all([fetch(DATA_PATHS.db).then(r=>{if(!r.ok)throw Error(`${DATA_PATHS.db}: ${r.status}`);return r.json()}),fetch(DATA_PATHS.byDate).then(r=>r.json()),fetch(DATA_PATHS.byTeam).then(r=>r.json()),fetch(DATA_PATHS.arena).then(r=>{if(!r.ok)throw Error(`${DATA_PATHS.arena}: ${r.status}`);return r.json()})]);DB=db;ARENA=arena;ARENA_MAP=new Map(ARENA.teams.map(t=>[t.team,t]));ARENA_THRESHOLD=Number(ARENA.metadata?.empirical_thresholds?.recommended_game_level_arena_advantage_cutoff_pct_points??8.0);DATE_INDEX=dateIdx;TEAM_INDEX=teamIdx;GAME_MAP=new Map(DB.games.map(g=>[g.id,g]));recomputeAwkwardStarts();populateTeams();$('#seasonPill').textContent=`${DB.metadata.season} Season`;renderNextScheduleLoss();$('#loading').hidden=true;showView('overview')}catch(err){$('#loading').hidden=true;$('#error').hidden=false;$('#error').innerHTML=`<strong>Could not load the JSON files.</strong><br>${err.message}<br><br>Open this site through a web server (including GitHub Pages), not by double-clicking the HTML file, because browsers block local <code>fetch()</code> requests.`}}
 $$('[data-view]').forEach(el=>el.addEventListener('click',()=>showView(el.dataset.view)));document.addEventListener('click',e=>{const th=e.target.closest('#overviewTable th.sortable');if(th)setOverviewSort(th.dataset.sort)});$('#prevMonth').addEventListener('click',()=>{calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()-1,1);renderCalendar()});$('#nextMonth').addEventListener('click',()=>{calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+1,1);renderCalendar()});$('#teamSelect').addEventListener('change',e=>{selectedTeam=e.target.value;teamFactorFilter=null;teamArenaOnly=false;$('#globalTeam').value=selectedTeam;renderTeam();renderTeamNextSpot(selectedTeam)});$('#globalTeam').addEventListener('change',e=>{if(e.target.value!=='ALL'){selectedTeam=e.target.value;teamFactorFilter=null;teamArenaOnly=false;$('#teamSelect').value=selectedTeam}if(activeView==='overview')renderOverview();if(activeView==='calendar')renderCalendar();if(activeView==='teams'){renderTeam();renderTeamNextSpot(selectedTeam)}});$('#spotFilter').addEventListener('change',()=>{if(activeView==='overview')renderOverview();if(activeView==='calendar')renderCalendar();if(activeView==='teams'){renderTeam();renderTeamNextSpot(selectedTeam)}});document.addEventListener('click',e=>{const dateTarget=e.target.closest('[data-date]');if(dateTarget&&dateTarget.dataset.date){selectedDate=dateTarget.dataset.date;const d=new Date(selectedDate+'T12:00:00');calendarMonth=new Date(d.getFullYear(),d.getMonth(),1);teamFactorFilter=null;teamArenaOnly=false;$('#spotFilter').value='ALL';showView('calendar');return}const card=e.target.closest('.factor-card[data-factor-type]');if(card){setTeamFactorFilter(card.dataset.factorType,card.dataset.factorLevel);return}const b=e.target.closest('[data-team]');if(b&&b.dataset.team){selectedTeam=b.dataset.team;teamFactorFilter=null;teamArenaOnly=false;$('#globalTeam').value=selectedTeam;$('#teamSelect').value=selectedTeam;showView('teams')}});document.addEventListener('keydown',e=>{const card=e.target.closest?.('.factor-card[data-factor-type]');if(card&&(e.key==='Enter'||e.key===' ')){e.preventDefault();setTeamFactorFilter(card.dataset.factorType,card.dataset.factorLevel)}});$('#viewEntireSchedule').addEventListener('click',clearTeamScheduleFilters);$('#viewArenaFactors').addEventListener('click',showArenaFactors);load();
 </script>
 </body>
