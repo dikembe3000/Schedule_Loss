@@ -1,0 +1,897 @@
+{
+  "metadata": {
+    "description": "NBA home and away against-the-spread performance for the four completed seasons from 2022-23 through 2025-26, with derived home-vs-away ATS differential for Schedule Loss arena analysis.",
+    "data_through": "end of 2025-26 NBA season",
+    "range": "Since 2022-23 (2022-23 through 2025-26)",
+    "source": "TeamRankings",
+    "source_urls": {
+      "home": "https://www.teamrankings.com/nba/trends/ats_trends/?range=yearly_since_2022_2023&sc=is_home",
+      "away": "https://www.teamrankings.com/nba/trends/ats_trends/?range=yearly_since_2022_2023&sc=is_away"
+    },
+    "definitions": {
+      "cover_pct": "TeamRankings Cover %, net of pushes.",
+      "home_minus_away_cover_pct_points": "Home cover percentage minus away cover percentage, in percentage points.",
+      "top_20_pct_arena_profile": "True for the six highest home-minus-away ATS differentials among 30 teams.",
+      "top_15_pct_arena_profile": "True for the five highest home-minus-away ATS differentials among 30 teams.",
+      "game_arena_matchup_differential": "For future game analysis: home team home.cover_pct minus visiting team away.cover_pct."
+    },
+    "empirical_thresholds": {
+      "top_20_pct_cutoff_home_minus_away_pct_points": 6.8,
+      "top_15_pct_cutoff_home_minus_away_pct_points": 7.9,
+      "recommended_game_level_arena_advantage_cutoff_pct_points": 8.0,
+      "note": "The team-profile percentile thresholds describe a team own home-vs-away split. The 8.0 point game-level cutoff is a provisional Schedule Loss rule comparing the home team home ATS% with the visitor road ATS%."
+    }
+  },
+  "teams": [
+    {
+      "team": "ATL",
+      "team_name": "Atlanta Hawks",
+      "home": {
+        "ats_record": "74-96-0",
+        "covers": 74,
+        "no_covers": 96,
+        "pushes": 0,
+        "graded_games": 170,
+        "cover_pct": 43.5,
+        "mov": 0.9,
+        "ats_plus_minus": -1.5
+      },
+      "away": {
+        "ats_record": "81-90-1",
+        "covers": 81,
+        "no_covers": 90,
+        "pushes": 1,
+        "graded_games": 171,
+        "cover_pct": 47.4,
+        "mov": -2.2,
+        "ats_plus_minus": 0.0
+      },
+      "home_minus_away_cover_pct_points": -3.9,
+      "arena_differential_rank": 25,
+      "arena_differential_percentile": 17.2,
+      "top_20_pct_arena_profile": false,
+      "top_15_pct_arena_profile": false
+    },
+    {
+      "team": "BKN",
+      "team_name": "Brooklyn Nets",
+      "home": {
+        "ats_record": "76-85-5",
+        "covers": 76,
+        "no_covers": 85,
+        "pushes": 5,
+        "graded_games": 161,
+        "cover_pct": 47.2,
+        "mov": -2.8,
+        "ats_plus_minus": -0.3
+      },
+      "away": {
+        "ats_record": "80-83-2",
+        "covers": 80,
+        "no_covers": 83,
+        "pushes": 2,
+        "graded_games": 163,
+        "cover_pct": 49.1,
+        "mov": -6.9,
+        "ats_plus_minus": -0.8
+      },
+      "home_minus_away_cover_pct_points": -1.9,
+      "arena_differential_rank": 22,
+      "arena_differential_percentile": 27.6,
+      "top_20_pct_arena_profile": false,
+      "top_15_pct_arena_profile": false
+    },
+    {
+      "team": "BOS",
+      "team_name": "Boston Celtics",
+      "home": {
+        "ats_record": "102-91-3",
+        "covers": 102,
+        "no_covers": 91,
+        "pushes": 3,
+        "graded_games": 193,
+        "cover_pct": 52.8,
+        "mov": 10.0,
+        "ats_plus_minus": 0.7
+      },
+      "away": {
+        "ats_record": "99-86-4",
+        "covers": 99,
+        "no_covers": 86,
+        "pushes": 4,
+        "graded_games": 185,
+        "cover_pct": 53.5,
+        "mov": 6.3,
+        "ats_plus_minus": 1.0
+      },
+      "home_minus_away_cover_pct_points": -0.7,
+      "arena_differential_rank": 21,
+      "arena_differential_percentile": 31.0,
+      "top_20_pct_arena_profile": false,
+      "top_15_pct_arena_profile": false
+    },
+    {
+      "team": "CHA",
+      "team_name": "Charlotte Hornets",
+      "home": {
+        "ats_record": "80-84-1",
+        "covers": 80,
+        "no_covers": 84,
+        "pushes": 1,
+        "graded_games": 164,
+        "cover_pct": 48.8,
+        "mov": -4.1,
+        "ats_plus_minus": 0.0
+      },
+      "away": {
+        "ats_record": "78-84-3",
+        "covers": 78,
+        "no_covers": 84,
+        "pushes": 3,
+        "graded_games": 162,
+        "cover_pct": 48.2,
+        "mov": -6.4,
+        "ats_plus_minus": 0.2
+      },
+      "home_minus_away_cover_pct_points": 0.6,
+      "arena_differential_rank": 16,
+      "arena_differential_percentile": 48.3,
+      "top_20_pct_arena_profile": false,
+      "top_15_pct_arena_profile": false
+    },
+    {
+      "team": "CHI",
+      "team_name": "Chicago Bulls",
+      "home": {
+        "ats_record": "82-81-3",
+        "covers": 82,
+        "no_covers": 81,
+        "pushes": 3,
+        "graded_games": 163,
+        "cover_pct": 50.3,
+        "mov": -0.8,
+        "ats_plus_minus": -0.4
+      },
+      "away": {
+        "ats_record": "82-81-3",
+        "covers": 82,
+        "no_covers": 81,
+        "pushes": 3,
+        "graded_games": 163,
+        "cover_pct": 50.3,
+        "mov": -2.9,
+        "ats_plus_minus": 1.0
+      },
+      "home_minus_away_cover_pct_points": 0.0,
+      "arena_differential_rank": 18,
+      "arena_differential_percentile": 41.4,
+      "top_20_pct_arena_profile": false,
+      "top_15_pct_arena_profile": false
+    },
+    {
+      "team": "CLE",
+      "team_name": "Cleveland Cavaliers",
+      "home": {
+        "ats_record": "91-92-3",
+        "covers": 91,
+        "no_covers": 92,
+        "pushes": 3,
+        "graded_games": 183,
+        "cover_pct": 49.7,
+        "mov": 6.3,
+        "ats_plus_minus": -0.4
+      },
+      "away": {
+        "ats_record": "87-94-4",
+        "covers": 87,
+        "no_covers": 94,
+        "pushes": 4,
+        "graded_games": 181,
+        "cover_pct": 48.1,
+        "mov": 2.9,
+        "ats_plus_minus": 0.6
+      },
+      "home_minus_away_cover_pct_points": 1.6,
+      "arena_differential_rank": 13,
+      "arena_differential_percentile": 58.6,
+      "top_20_pct_arena_profile": false,
+      "top_15_pct_arena_profile": false
+    },
+    {
+      "team": "DAL",
+      "team_name": "Dallas Mavericks",
+      "home": {
+        "ats_record": "78-92-3",
+        "covers": 78,
+        "no_covers": 92,
+        "pushes": 3,
+        "graded_games": 170,
+        "cover_pct": 45.9,
+        "mov": 1.7,
+        "ats_plus_minus": -0.6
+      },
+      "away": {
+        "ats_record": "87-88-3",
+        "covers": 87,
+        "no_covers": 88,
+        "pushes": 3,
+        "graded_games": 175,
+        "cover_pct": 49.7,
+        "mov": -3.3,
+        "ats_plus_minus": -0.4
+      },
+      "home_minus_away_cover_pct_points": -3.8,
+      "arena_differential_rank": 24,
+      "arena_differential_percentile": 20.7,
+      "top_20_pct_arena_profile": false,
+      "top_15_pct_arena_profile": false
+    },
+    {
+      "team": "DEN",
+      "team_name": "Denver Nuggets",
+      "home": {
+        "ats_record": "99-90-3",
+        "covers": 99,
+        "no_covers": 90,
+        "pushes": 3,
+        "graded_games": 189,
+        "cover_pct": 52.4,
+        "mov": 7.5,
+        "ats_plus_minus": 1.0
+      },
+      "away": {
+        "ats_record": "92-94-2",
+        "covers": 92,
+        "no_covers": 94,
+        "pushes": 2,
+        "graded_games": 186,
+        "cover_pct": 49.5,
+        "mov": 0.3,
+        "ats_plus_minus": -1.2
+      },
+      "home_minus_away_cover_pct_points": 2.9,
+      "arena_differential_rank": 10,
+      "arena_differential_percentile": 69.0,
+      "top_20_pct_arena_profile": false,
+      "top_15_pct_arena_profile": false
+    },
+    {
+      "team": "DET",
+      "team_name": "Detroit Pistons",
+      "home": {
+        "ats_record": "79-90-3",
+        "covers": 79,
+        "no_covers": 90,
+        "pushes": 3,
+        "graded_games": 169,
+        "cover_pct": 46.8,
+        "mov": -0.4,
+        "ats_plus_minus": 0.1
+      },
+      "away": {
+        "ats_record": "88-81-5",
+        "covers": 88,
+        "no_covers": 81,
+        "pushes": 5,
+        "graded_games": 169,
+        "cover_pct": 52.1,
+        "mov": -2.9,
+        "ats_plus_minus": 1.6
+      },
+      "home_minus_away_cover_pct_points": -5.3,
+      "arena_differential_rank": 27,
+      "arena_differential_percentile": 10.3,
+      "top_20_pct_arena_profile": false,
+      "top_15_pct_arena_profile": false
+    },
+    {
+      "team": "GSW",
+      "team_name": "Golden State Warriors",
+      "home": {
+        "ats_record": "84-89-3",
+        "covers": 84,
+        "no_covers": 89,
+        "pushes": 3,
+        "graded_games": 173,
+        "cover_pct": 48.6,
+        "mov": 3.0,
+        "ats_plus_minus": -1.5
+      },
+      "away": {
+        "ats_record": "84-94-2",
+        "covers": 84,
+        "no_covers": 94,
+        "pushes": 2,
+        "graded_games": 178,
+        "cover_pct": 47.2,
+        "mov": -0.3,
+        "ats_plus_minus": -0.7
+      },
+      "home_minus_away_cover_pct_points": 1.4,
+      "arena_differential_rank": 15,
+      "arena_differential_percentile": 51.7,
+      "top_20_pct_arena_profile": false,
+      "top_15_pct_arena_profile": false
+    },
+    {
+      "team": "HOU",
+      "team_name": "Houston Rockets",
+      "home": {
+        "ats_record": "86-80-5",
+        "covers": 86,
+        "no_covers": 80,
+        "pushes": 5,
+        "graded_games": 166,
+        "cover_pct": 51.8,
+        "mov": 3.6,
+        "ats_plus_minus": 1.4
+      },
+      "away": {
+        "ats_record": "77-90-2",
+        "covers": 77,
+        "no_covers": 90,
+        "pushes": 2,
+        "graded_games": 167,
+        "cover_pct": 46.1,
+        "mov": -2.2,
+        "ats_plus_minus": -0.5
+      },
+      "home_minus_away_cover_pct_points": 5.7,
+      "arena_differential_rank": 7,
+      "arena_differential_percentile": 79.3,
+      "top_20_pct_arena_profile": false,
+      "top_15_pct_arena_profile": false
+    },
+    {
+      "team": "IND",
+      "team_name": "Indiana Pacers",
+      "home": {
+        "ats_record": "98-79-6",
+        "covers": 98,
+        "no_covers": 79,
+        "pushes": 6,
+        "graded_games": 177,
+        "cover_pct": 55.4,
+        "mov": 1.9,
+        "ats_plus_minus": 1.2
+      },
+      "away": {
+        "ats_record": "87-96-1",
+        "covers": 87,
+        "no_covers": 96,
+        "pushes": 1,
+        "graded_games": 183,
+        "cover_pct": 47.5,
+        "mov": -4.2,
+        "ats_plus_minus": -0.4
+      },
+      "home_minus_away_cover_pct_points": 7.9,
+      "arena_differential_rank": 5,
+      "arena_differential_percentile": 86.2,
+      "top_20_pct_arena_profile": true,
+      "top_15_pct_arena_profile": true
+    },
+    {
+      "team": "LAC",
+      "team_name": "LA Clippers",
+      "home": {
+        "ats_record": "90-82-1",
+        "covers": 90,
+        "no_covers": 82,
+        "pushes": 1,
+        "graded_games": 172,
+        "cover_pct": 52.3,
+        "mov": 4.2,
+        "ats_plus_minus": -0.1
+      },
+      "away": {
+        "ats_record": "85-89-0",
+        "covers": 85,
+        "no_covers": 89,
+        "pushes": 0,
+        "graded_games": 174,
+        "cover_pct": 48.9,
+        "mov": -0.1,
+        "ats_plus_minus": -0.3
+      },
+      "home_minus_away_cover_pct_points": 3.4,
+      "arena_differential_rank": 9,
+      "arena_differential_percentile": 72.4,
+      "top_20_pct_arena_profile": false,
+      "top_15_pct_arena_profile": false
+    },
+    {
+      "team": "LAL",
+      "team_name": "Los Angeles Lakers",
+      "home": {
+        "ats_record": "103-80-0",
+        "covers": 103,
+        "no_covers": 80,
+        "pushes": 0,
+        "graded_games": 183,
+        "cover_pct": 56.3,
+        "mov": 3.9,
+        "ats_plus_minus": 0.9
+      },
+      "away": {
+        "ats_record": "85-94-3",
+        "covers": 85,
+        "no_covers": 94,
+        "pushes": 3,
+        "graded_games": 179,
+        "cover_pct": 47.5,
+        "mov": -2.5,
+        "ats_plus_minus": -0.9
+      },
+      "home_minus_away_cover_pct_points": 8.8,
+      "arena_differential_rank": 2,
+      "arena_differential_percentile": 96.6,
+      "top_20_pct_arena_profile": true,
+      "top_15_pct_arena_profile": true
+    },
+    {
+      "team": "MEM",
+      "team_name": "Memphis Grizzlies",
+      "home": {
+        "ats_record": "82-86-1",
+        "covers": 82,
+        "no_covers": 86,
+        "pushes": 1,
+        "graded_games": 168,
+        "cover_pct": 48.8,
+        "mov": 1.7,
+        "ats_plus_minus": 1.3
+      },
+      "away": {
+        "ats_record": "78-89-2",
+        "covers": 78,
+        "no_covers": 89,
+        "pushes": 2,
+        "graded_games": 167,
+        "cover_pct": 46.7,
+        "mov": -4.5,
+        "ats_plus_minus": -1.3
+      },
+      "home_minus_away_cover_pct_points": 2.1,
+      "arena_differential_rank": 12,
+      "arena_differential_percentile": 62.1,
+      "top_20_pct_arena_profile": false,
+      "top_15_pct_arena_profile": false
+    },
+    {
+      "team": "MIA",
+      "team_name": "Miami Heat",
+      "home": {
+        "ats_record": "82-97-2",
+        "covers": 82,
+        "no_covers": 97,
+        "pushes": 2,
+        "graded_games": 179,
+        "cover_pct": 45.8,
+        "mov": 1.8,
+        "ats_plus_minus": -1.2
+      },
+      "away": {
+        "ats_record": "93-87-4",
+        "covers": 93,
+        "no_covers": 87,
+        "pushes": 4,
+        "graded_games": 180,
+        "cover_pct": 51.7,
+        "mov": -0.7,
+        "ats_plus_minus": 1.3
+      },
+      "home_minus_away_cover_pct_points": -5.9,
+      "arena_differential_rank": 29,
+      "arena_differential_percentile": 3.4,
+      "top_20_pct_arena_profile": false,
+      "top_15_pct_arena_profile": false
+    },
+    {
+      "team": "MIL",
+      "team_name": "Milwaukee Bucks",
+      "home": {
+        "ats_record": "88-80-4",
+        "covers": 88,
+        "no_covers": 80,
+        "pushes": 4,
+        "graded_games": 168,
+        "cover_pct": 52.4,
+        "mov": 3.6,
+        "ats_plus_minus": -0.7
+      },
+      "away": {
+        "ats_record": "73-92-5",
+        "covers": 73,
+        "no_covers": 92,
+        "pushes": 5,
+        "graded_games": 165,
+        "cover_pct": 44.2,
+        "mov": -2.9,
+        "ats_plus_minus": -2.9
+      },
+      "home_minus_away_cover_pct_points": 8.2,
+      "arena_differential_rank": 4,
+      "arena_differential_percentile": 89.7,
+      "top_20_pct_arena_profile": true,
+      "top_15_pct_arena_profile": true
+    },
+    {
+      "team": "MIN",
+      "team_name": "Minnesota Timberwolves",
+      "home": {
+        "ats_record": "87-98-3",
+        "covers": 87,
+        "no_covers": 98,
+        "pushes": 3,
+        "graded_games": 185,
+        "cover_pct": 47.0,
+        "mov": 5.1,
+        "ats_plus_minus": -0.3
+      },
+      "away": {
+        "ats_record": "95-94-0",
+        "covers": 95,
+        "no_covers": 94,
+        "pushes": 0,
+        "graded_games": 189,
+        "cover_pct": 50.3,
+        "mov": 1.3,
+        "ats_plus_minus": 1.3
+      },
+      "home_minus_away_cover_pct_points": -3.3,
+      "arena_differential_rank": 23,
+      "arena_differential_percentile": 24.1,
+      "top_20_pct_arena_profile": false,
+      "top_15_pct_arena_profile": false
+    },
+    {
+      "team": "NOP",
+      "team_name": "New Orleans Pelicans",
+      "home": {
+        "ats_record": "91-73-4",
+        "covers": 91,
+        "no_covers": 73,
+        "pushes": 4,
+        "graded_games": 164,
+        "cover_pct": 55.5,
+        "mov": 0.2,
+        "ats_plus_minus": 0.2
+      },
+      "away": {
+        "ats_record": "72-92-2",
+        "covers": 72,
+        "no_covers": 92,
+        "pushes": 2,
+        "graded_games": 164,
+        "cover_pct": 43.9,
+        "mov": -4.1,
+        "ats_plus_minus": -0.5
+      },
+      "home_minus_away_cover_pct_points": 11.6,
+      "arena_differential_rank": 1,
+      "arena_differential_percentile": 100.0,
+      "top_20_pct_arena_profile": true,
+      "top_15_pct_arena_profile": true
+    },
+    {
+      "team": "NYK",
+      "team_name": "New York Knicks",
+      "home": {
+        "ats_record": "102-86-5",
+        "covers": 102,
+        "no_covers": 86,
+        "pushes": 5,
+        "graded_games": 188,
+        "cover_pct": 54.3,
+        "mov": 6.7,
+        "ats_plus_minus": 1.5
+      },
+      "away": {
+        "ats_record": "103-89-3",
+        "covers": 103,
+        "no_covers": 89,
+        "pushes": 3,
+        "graded_games": 192,
+        "cover_pct": 53.7,
+        "mov": 2.1,
+        "ats_plus_minus": 1.9
+      },
+      "home_minus_away_cover_pct_points": 0.6,
+      "arena_differential_rank": 17,
+      "arena_differential_percentile": 44.8,
+      "top_20_pct_arena_profile": false,
+      "top_15_pct_arena_profile": false
+    },
+    {
+      "team": "OKC",
+      "team_name": "Oklahoma City Thunder",
+      "home": {
+        "ats_record": "114-74-2",
+        "covers": 114,
+        "no_covers": 74,
+        "pushes": 2,
+        "graded_games": 188,
+        "cover_pct": 60.6,
+        "mov": 11.8,
+        "ats_plus_minus": 4.1
+      },
+      "away": {
+        "ats_record": "94-86-6",
+        "covers": 94,
+        "no_covers": 86,
+        "pushes": 6,
+        "graded_games": 180,
+        "cover_pct": 52.2,
+        "mov": 4.1,
+        "ats_plus_minus": 0.5
+      },
+      "home_minus_away_cover_pct_points": 8.4,
+      "arena_differential_rank": 3,
+      "arena_differential_percentile": 93.1,
+      "top_20_pct_arena_profile": true,
+      "top_15_pct_arena_profile": true
+    },
+    {
+      "team": "ORL",
+      "team_name": "Orlando Magic",
+      "home": {
+        "ats_record": "97-73-2",
+        "covers": 97,
+        "no_covers": 73,
+        "pushes": 2,
+        "graded_games": 170,
+        "cover_pct": 57.1,
+        "mov": 3.3,
+        "ats_plus_minus": 1.3
+      },
+      "away": {
+        "ats_record": "87-86-1",
+        "covers": 87,
+        "no_covers": 86,
+        "pushes": 1,
+        "graded_games": 173,
+        "cover_pct": 50.3,
+        "mov": -3.3,
+        "ats_plus_minus": -0.8
+      },
+      "home_minus_away_cover_pct_points": 6.8,
+      "arena_differential_rank": 6,
+      "arena_differential_percentile": 82.8,
+      "top_20_pct_arena_profile": true,
+      "top_15_pct_arena_profile": false
+    },
+    {
+      "team": "PHI",
+      "team_name": "Philadelphia 76ers",
+      "home": {
+        "ats_record": "86-91-2",
+        "covers": 86,
+        "no_covers": 91,
+        "pushes": 2,
+        "graded_games": 177,
+        "cover_pct": 48.6,
+        "mov": 0.2,
+        "ats_plus_minus": -2.4
+      },
+      "away": {
+        "ats_record": "96-81-2",
+        "covers": 96,
+        "no_covers": 81,
+        "pushes": 2,
+        "graded_games": 177,
+        "cover_pct": 54.2,
+        "mov": -0.4,
+        "ats_plus_minus": 1.5
+      },
+      "home_minus_away_cover_pct_points": -5.6,
+      "arena_differential_rank": 28,
+      "arena_differential_percentile": 6.9,
+      "top_20_pct_arena_profile": false,
+      "top_15_pct_arena_profile": false
+    },
+    {
+      "team": "PHX",
+      "team_name": "Phoenix Suns",
+      "home": {
+        "ats_record": "81-92-3",
+        "covers": 81,
+        "no_covers": 92,
+        "pushes": 3,
+        "graded_games": 173,
+        "cover_pct": 46.8,
+        "mov": 2.4,
+        "ats_plus_minus": -1.1
+      },
+      "away": {
+        "ats_record": "81-90-2",
+        "covers": 81,
+        "no_covers": 90,
+        "pushes": 2,
+        "graded_games": 171,
+        "cover_pct": 47.4,
+        "mov": -1.6,
+        "ats_plus_minus": -0.7
+      },
+      "home_minus_away_cover_pct_points": -0.6,
+      "arena_differential_rank": 20,
+      "arena_differential_percentile": 34.5,
+      "top_20_pct_arena_profile": false,
+      "top_15_pct_arena_profile": false
+    },
+    {
+      "team": "POR",
+      "team_name": "Portland Trail Blazers",
+      "home": {
+        "ats_record": "85-80-1",
+        "covers": 85,
+        "no_covers": 80,
+        "pushes": 1,
+        "graded_games": 165,
+        "cover_pct": 51.5,
+        "mov": -2.0,
+        "ats_plus_minus": 0.1
+      },
+      "away": {
+        "ats_record": "85-80-2",
+        "covers": 85,
+        "no_covers": 80,
+        "pushes": 2,
+        "graded_games": 165,
+        "cover_pct": 51.5,
+        "mov": -6.3,
+        "ats_plus_minus": -0.4
+      },
+      "home_minus_away_cover_pct_points": 0.0,
+      "arena_differential_rank": 19,
+      "arena_differential_percentile": 37.9,
+      "top_20_pct_arena_profile": false,
+      "top_15_pct_arena_profile": false
+    },
+    {
+      "team": "SAC",
+      "team_name": "Sacramento Kings",
+      "home": {
+        "ats_record": "71-95-4",
+        "covers": 71,
+        "no_covers": 95,
+        "pushes": 4,
+        "graded_games": 166,
+        "cover_pct": 42.8,
+        "mov": -0.1,
+        "ats_plus_minus": -1.8
+      },
+      "away": {
+        "ats_record": "91-75-2",
+        "covers": 91,
+        "no_covers": 75,
+        "pushes": 2,
+        "graded_games": 166,
+        "cover_pct": 54.8,
+        "mov": -2.5,
+        "ats_plus_minus": -0.2
+      },
+      "home_minus_away_cover_pct_points": -12.0,
+      "arena_differential_rank": 30,
+      "arena_differential_percentile": 0.0,
+      "top_20_pct_arena_profile": false,
+      "top_15_pct_arena_profile": false
+    },
+    {
+      "team": "SAS",
+      "team_name": "San Antonio Spurs",
+      "home": {
+        "ats_record": "90-80-1",
+        "covers": 90,
+        "no_covers": 80,
+        "pushes": 1,
+        "graded_games": 170,
+        "cover_pct": 52.9,
+        "mov": 0.2,
+        "ats_plus_minus": 0.7
+      },
+      "away": {
+        "ats_record": "85-89-1",
+        "covers": 85,
+        "no_covers": 89,
+        "pushes": 1,
+        "graded_games": 174,
+        "cover_pct": 48.9,
+        "mov": -4.0,
+        "ats_plus_minus": 0.7
+      },
+      "home_minus_away_cover_pct_points": 4.0,
+      "arena_differential_rank": 8,
+      "arena_differential_percentile": 75.9,
+      "top_20_pct_arena_profile": false,
+      "top_15_pct_arena_profile": false
+    },
+    {
+      "team": "TOR",
+      "team_name": "Toronto Raptors",
+      "home": {
+        "ats_record": "87-79-2",
+        "covers": 87,
+        "no_covers": 79,
+        "pushes": 2,
+        "graded_games": 166,
+        "cover_pct": 52.4,
+        "mov": 0.2,
+        "ats_plus_minus": -0.5
+      },
+      "away": {
+        "ats_record": "83-83-2",
+        "covers": 83,
+        "no_covers": 83,
+        "pushes": 2,
+        "graded_games": 166,
+        "cover_pct": 50.0,
+        "mov": -3.4,
+        "ats_plus_minus": -0.1
+      },
+      "home_minus_away_cover_pct_points": 2.4,
+      "arena_differential_rank": 11,
+      "arena_differential_percentile": 65.5,
+      "top_20_pct_arena_profile": false,
+      "top_15_pct_arena_profile": false
+    },
+    {
+      "team": "UTA",
+      "team_name": "Utah Jazz",
+      "home": {
+        "ats_record": "87-76-1",
+        "covers": 87,
+        "no_covers": 76,
+        "pushes": 1,
+        "graded_games": 163,
+        "cover_pct": 53.4,
+        "mov": -2.8,
+        "ats_plus_minus": 0.6
+      },
+      "away": {
+        "ats_record": "84-78-2",
+        "covers": 84,
+        "no_covers": 78,
+        "pushes": 2,
+        "graded_games": 162,
+        "cover_pct": 51.8,
+        "mov": -9.0,
+        "ats_plus_minus": -1.2
+      },
+      "home_minus_away_cover_pct_points": 1.6,
+      "arena_differential_rank": 14,
+      "arena_differential_percentile": 55.2,
+      "top_20_pct_arena_profile": false,
+      "top_15_pct_arena_profile": false
+    },
+    {
+      "team": "WAS",
+      "team_name": "Washington Wizards",
+      "home": {
+        "ats_record": "67-94-2",
+        "covers": 67,
+        "no_covers": 94,
+        "pushes": 2,
+        "graded_games": 161,
+        "cover_pct": 41.6,
+        "mov": -8.2,
+        "ats_plus_minus": -2.1
+      },
+      "away": {
+        "ats_record": "73-84-7",
+        "covers": 73,
+        "no_covers": 84,
+        "pushes": 7,
+        "graded_games": 157,
+        "cover_pct": 46.5,
+        "mov": -9.2,
+        "ats_plus_minus": 0.2
+      },
+      "home_minus_away_cover_pct_points": -4.9,
+      "arena_differential_rank": 26,
+      "arena_differential_percentile": 13.8,
+      "top_20_pct_arena_profile": false,
+      "top_15_pct_arena_profile": false
+    }
+  ]
+}
