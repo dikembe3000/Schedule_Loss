@@ -25,6 +25,8 @@
     .factor-matrix{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0 0 18px}.factor-card{min-height:112px;padding:17px;border-radius:13px;border:1px solid transparent;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease,outline-color .15s ease}.factor-card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(35,72,43,.10)}.factor-card.active-factor{outline:3px solid rgba(24,48,29,.42);outline-offset:2px;box-shadow:0 10px 24px rgba(35,72,43,.13)}.factor-card .factor-label{font-size:.68rem;font-weight:900;letter-spacing:.075em;text-transform:uppercase;line-height:1.35}.factor-card .factor-value{margin-top:8px;font-size:2rem;font-weight:950;letter-spacing:-.05em}.factor-card .factor-note{margin-top:4px;font-size:.68rem;font-weight:700;opacity:.72}.disadvantage-1{background:#fff1ef;border-color:#f4d6d1;color:#8c3e36}.disadvantage-2{background:#f9d9d3;border-color:#edbeb5;color:#823127}.disadvantage-3{background:#edb8ae;border-color:#de9589;color:#73251c}.disadvantage-4{background:#d98272;border-color:#c86d5d;color:#fff}.advantage-1{background:#eef8ee;border-color:#d8ecd8;color:#356536}.advantage-2{background:#d9eed8;border-color:#bfe0bd;color:#2e5c2f}.advantage-3{background:#b8ddb6;border-color:#94ca92;color:#244f26}.advantage-4{background:#6ea66d;border-color:#5b925a;color:#fff}.factor-matrix-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:0 0 10px}.factor-matrix-head h3{margin:0;font-size:.9rem}.factor-matrix-head p{margin:3px 0 0;color:var(--muted);font-size:.72rem}.factor-row-label{grid-column:1/-1;font-size:.67rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:2px}
     .calendar-shell{padding:20px}.calendar-head{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:16px}.calendar-title{font-size:1.1rem;font-weight:900}.month-controls{display:flex;gap:7px}.icon-btn{border:1px solid var(--line);background:#fff;color:var(--forest);width:36px;height:34px;border-radius:9px;font-weight:900;cursor:pointer}.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border-top:1px solid var(--line);border-left:1px solid var(--line)}.dow{padding:8px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--surface-tint);font-size:.66rem;font-weight:900;text-transform:uppercase;color:var(--muted);text-align:center}.day{min-height:105px;padding:8px;border:0;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:#fff;text-align:left;cursor:pointer;color:var(--ink)}.day:hover{background:#f8fbf7}.day.outside{background:#fafbfa;color:#afb7b0;cursor:default}.day.selected{box-shadow:inset 0 0 0 2px var(--forest);background:#f4faf4}.day-num{font-size:.72rem;font-weight:900}.game-count{margin-top:10px;font-size:.66rem;font-weight:850;color:var(--forest)}.matchups-mini{margin-top:5px;display:grid;gap:3px}.mini-game{font-size:.62rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.day-detail{padding:18px 22px;border-top:1px solid var(--line);background:#fbfcfa}.day-detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.game-card{padding:14px;border:1px solid var(--line);border-radius:12px;background:#fff}.game-top{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:.68rem}.matchup{margin-top:7px;font-size:.95rem;font-weight:900}.game-meta{margin-top:5px;color:var(--muted);font-size:.7rem}.context-row{margin-top:9px;padding-top:8px;border-top:1px solid #edf1ed;display:grid;grid-template-columns:1fr 1fr;gap:8px}.context{font-size:.66rem;line-height:1.5}.context strong{display:block;color:var(--forest);font-size:.69rem}
     .empty{padding:32px;text-align:center;color:var(--muted);font-size:.86rem}.loading{display:inline-flex;align-items:center;gap:8px;width:auto;min-height:0;margin:0 0 14px;padding:7px 11px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);font-size:.72rem;font-weight:750;box-shadow:none}.loading::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--sage);animation:pulse 1.15s ease-in-out infinite}@keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}.error-box{padding:18px;border:1px solid #e5baba;border-radius:12px;background:#fff4f4;color:#7d3434;line-height:1.55}.view{display:none}.view.active{display:block}.page-note{margin-top:20px;padding:22px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}.page-note h3{margin:0 0 8px;font-size:.95rem}.page-note p{margin:0;color:var(--muted);font-size:.82rem;line-height:1.7}.mobile-menu{display:none}
+
+    .methodology-shell{display:grid;gap:18px}.methodology-intro{padding:24px;border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(135deg,#f5faf4 0%,#f1fbf8 100%);box-shadow:var(--shadow)}.methodology-intro h2{margin:0 0 8px;font-size:1.35rem;letter-spacing:-.025em}.methodology-intro p{margin:0;color:var(--muted);font-size:.86rem;line-height:1.75;max-width:920px}.methodology-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.method-card{padding:21px 22px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}.method-card.full{grid-column:1/-1}.method-card h3{margin:0 0 9px;font-size:.98rem}.method-card h4{margin:18px 0 6px;font-size:.82rem;color:var(--forest)}.method-card p,.method-card li{color:var(--muted);font-size:.8rem;line-height:1.7}.method-card p{margin:0 0 10px}.method-card ul{margin:8px 0 0;padding-left:19px}.method-card li+li{margin-top:6px}.method-formula{margin:13px 0;padding:12px 14px;border-left:4px solid var(--sage);border-radius:0 9px 9px 0;background:#f6f8eb;color:var(--ink);font-size:.8rem;font-weight:850;line-height:1.55}.method-table{width:100%;min-width:0;border-collapse:collapse;font-size:.77rem}.method-table th,.method-table td{padding:10px 11px;border-bottom:1px solid #edf1ed;text-align:left;vertical-align:top;white-space:normal}.method-table th{position:static;background:#f8faf7;color:var(--muted);font-size:.65rem;text-transform:uppercase;letter-spacing:.055em}.method-table td:first-child{width:24%;font-weight:850;color:var(--ink)}.method-badge{display:inline-flex;margin:2px 4px 2px 0;padding:4px 7px;border-radius:999px;background:#eef8ee;color:#356536;font-size:.67rem;font-weight:850}.method-badge.red{background:#fff1ef;color:#8c3e36}.method-caution{padding:15px 17px;border:1px solid #eadfc3;border-radius:11px;background:#fffaf0;color:#6f6248;font-size:.77rem;line-height:1.65}.method-caution strong{color:#554829}@media(max-width:780px){.methodology-grid{grid-template-columns:1fr}.method-card.full{grid-column:auto}}
     @media(max-width:980px){.factor-matrix{grid-template-columns:repeat(2,minmax(0,1fr))}.app-shell{grid-template-columns:82px minmax(0,1fr)}.sidebar{padding:22px 12px;align-items:center}.brand-copy,.nav-label,.nav-item span:not(.nav-dot),.sidebar-note{display:none}.nav-item{justify-content:center;width:46px;height:42px;padding:0}.hero{grid-template-columns:1fr}.summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.day-detail-grid{grid-template-columns:1fr}}
     @media(max-width:680px){.factor-matrix{grid-template-columns:1fr 1fr}.factor-card{min-height:96px;padding:14px}.app-shell{display:block}.sidebar{display:none}.topbar{height:auto;min-height:62px;padding:12px 18px}.mobile-menu{display:inline-flex;border:0;background:var(--forest);color:#fff;border-radius:9px;padding:8px 10px;font-weight:850}.page{width:min(100% - 28px,1240px);padding-top:24px}.hero-copy,.hero-stat{padding:24px}.summary-grid{grid-template-columns:1fr}.panel-head{align-items:flex-start;flex-direction:column}.calendar-shell{padding:10px}.day{min-height:78px;padding:5px}.matchups-mini{display:none}.game-count{font-size:.58rem}}
   </style>
@@ -108,6 +110,108 @@
           <div class="table-wrap"><table id="arenaTable"><thead><tr><th>Team</th><th>Home ATS</th><th>Home Record</th><th>Road ATS</th><th>Road Record</th><th>Team Arena Profile</th><th>Profile Rank</th><th>Profile Tier</th><th>2026–27 Qualifying Home Games</th></tr></thead><tbody id="arenaBody"></tbody></table></div>
         </section>
         <div class="arena-note"><strong>How this enters Schedule Loss:</strong> when a game's home-team Home ATS% minus the visiting team's Road ATS% is <strong>+8.0 percentage points or greater</strong>, the matchup contributes exactly one arena factor: the home team receives an Arena Advantage and the visitor receives an Arena Disadvantage. In the net red/green classification this changes the matchup by one factor, not two, so it is not double-counted. Other schedule factors can still offset or cancel it.</div>
+      </section>
+
+
+      <section id="methodologyView" class="view">
+        <div class="methodology-shell">
+          <section class="methodology-intro">
+            <div class="eyebrow">How Schedule Loss works</div>
+            <h2>Methodology</h2>
+            <p>Schedule Loss treats the NBA schedule as a set of game-level conditions that can make one team's situation more demanding than its opponent's. Rather than assuming every back-to-back, road trip, or travel event has the same effect in isolation, the model compares the number of active schedule disadvantages on both sides of each matchup. The difference becomes that game's schedule advantage or disadvantage, and those game-level differences are accumulated across the season to describe each team's overall schedule environment.</p>
+          </section>
+
+          <div class="methodology-grid">
+            <section class="method-card">
+              <h3>1. Data sources and season scope</h3>
+              <p>The schedule database is built from the official 2026–27 NBA regular-season schedule. Each game stores the date, local and Eastern start time, teams, venue, venue location, and derived schedule context for both teams.</p>
+              <p>The current release contains 80 assigned games per team. The two remaining games per team are determined by NBA Cup results, so congestion and travel measures around those open dates should be treated as provisional until those matchups are added.</p>
+              <p>Arena analysis uses four completed post-pandemic seasons of TeamRankings against-the-spread data, covering 2022–23 through 2025–26.</p>
+            </section>
+
+            <section class="method-card">
+              <h3>2. Basic comparison rule</h3>
+              <p>For every matchup, Schedule Loss counts the active disadvantage factors for each team. The team carrying more factors is classified as having the schedule disadvantage; the opponent receives the corresponding relative advantage.</p>
+              <div class="method-formula">Game Factor Margin = Team Disadvantage Factors − Opponent Disadvantage Factors</div>
+              <p>A margin of <strong>+2</strong> means the team has a 2-factor disadvantage. A margin of <strong>−2</strong> means the team has a 2-factor advantage. If both teams have the same number of factors, the conditions cancel and the game is treated as neutral.</p>
+              <span class="method-badge red">More factors = disadvantage</span><span class="method-badge">Opponent has more = advantage</span>
+            </section>
+
+            <section class="method-card full">
+              <h3>3. Game-level schedule factors</h3>
+              <div class="table-wrap"><table class="method-table"><thead><tr><th>Factor</th><th>Definition used in the current model</th></tr></thead><tbody>
+                <tr><td>Back-to-Back</td><td>The team's previous scheduled game was on the immediately preceding calendar day.</td></tr>
+                <tr><td>3 in 4</td><td>The team plays at least three games within the four-calendar-day window ending on the current game date.</td></tr>
+                <tr><td>5 in 7</td><td>The team plays at least five games within the seven-calendar-day window ending on the current game date.</td></tr>
+                <tr><td>Less Rest</td><td>The team enters the game with fewer rest days than its opponent. Rest differences are counted by game, not by the number of extra rest days.</td></tr>
+                <tr><td>1-Game Homestand</td><td>An actual home-arena game where both the immediately previous and immediately next scheduled games are away from the team's home arena.</td></tr>
+                <tr><td>Home After 5+ Road</td><td>The first game back in the team's home arena immediately after at least five consecutive games played away from its home arena.</td></tr>
+                <tr><td>2+ Hour Time-Zone Change</td><td>The absolute change in venue UTC offset from the previous game is at least two hours on the relevant game dates.</td></tr>
+                <tr><td>Awkward Start</td><td>A preliminary timing flag for a venue-local tip before 1:00 PM or at/after 10:00 PM. This threshold is intentionally tunable.</td></tr>
+                <tr><td>Arena Disadvantage</td><td>The home team's historical Home ATS% exceeds the visiting team's historical Road ATS% by at least 8.0 percentage points. The visitor receives one disadvantage factor, producing a one-factor relative arena advantage for the home team.</td></tr>
+              </tbody></table></div>
+              <p style="margin-top:12px">Each qualifying condition contributes <strong>one factor</strong>. Overlapping congestion conditions can therefore stack: for example, a game can simultaneously be a back-to-back, a 3-in-4, and a 5-in-7.</p>
+            </section>
+
+            <section class="method-card">
+              <h3>4. Advantage / Disadvantage profile</h3>
+              <p>The red and green boxes on each team page classify games by the <strong>net factor difference</strong> between the two teams.</p>
+              <ul>
+                <li><strong>1-Factor Advantage:</strong> opponent has one more disadvantage factor.</li>
+                <li><strong>2-Factor Advantage:</strong> opponent has two more disadvantage factors.</li>
+                <li><strong>3-Factor Advantage:</strong> opponent has three more disadvantage factors.</li>
+                <li><strong>4+ Factor Advantage:</strong> opponent has four or more additional factors.</li>
+                <li>The disadvantage row uses the same logic in the opposite direction.</li>
+              </ul>
+              <p>Games with equal factor counts are neutral and do not appear in either row.</p>
+            </section>
+
+            <section class="method-card">
+              <h3>5. Cumulative Advantage</h3>
+              <p>Cumulative Advantage is the main season-level summary. It preserves the severity of multi-factor games rather than simply counting favorable and unfavorable games.</p>
+              <div class="method-formula">Cumulative Advantage = Total Advantage Factor Margins − Total Disadvantage Factor Margins</div>
+              <p>A 3-factor advantage contributes <strong>+3</strong>; a 2-factor disadvantage contributes <strong>−2</strong>; a neutral game contributes <strong>0</strong>. A positive season total indicates a more favorable schedule environment under the current model, while a negative total indicates a greater cumulative schedule burden.</p>
+            </section>
+
+            <section class="method-card full">
+              <h3>6. Team Schedule Profile columns</h3>
+              <div class="table-wrap"><table class="method-table"><thead><tr><th>Column</th><th>How it is calculated</th></tr></thead><tbody>
+                <tr><td>Games</td><td>Number of currently assigned regular-season games in the database for the team.</td></tr>
+                <tr><td>Cumulative Advantage</td><td>Sum of the team's game-level net factor margins, with multi-factor games weighted by their factor magnitude.</td></tr>
+                <tr><td>Rest Net</td><td>Count of games in which the team has more rest than its opponent minus the count of games in which it has less rest. Equal-rest games contribute zero.</td></tr>
+                <tr><td>Arena Net</td><td>Qualifying Arena Advantage games minus qualifying Arena Disadvantage games using the +8.0 percentage-point matchup threshold.</td></tr>
+                <tr><td>B2B</td><td>Total team games played on the second night of a back-to-back.</td></tr>
+                <tr><td>3 in 4</td><td>Total team games meeting the 3-games-in-4-calendar-days definition.</td></tr>
+                <tr><td>5 in 7</td><td>Total team games meeting the 5-games-in-7-calendar-days definition.</td></tr>
+                <tr><td>Travel Miles</td><td>Cumulative great-circle distance from the previous game's venue to the current game's venue. The season opener has no previous-game travel value.</td></tr>
+                <tr><td>2+ hr TZ</td><td>Count of games following an absolute venue UTC-offset change of at least two hours.</td></tr>
+                <tr><td>1-game Homes</td><td>Count of one-game homestands.</td></tr>
+                <tr><td>Home after 5+ Road</td><td>Count of first home-arena games immediately following a road sequence of at least five games.</td></tr>
+              </tbody></table></div>
+            </section>
+
+            <section class="method-card">
+              <h3>7. Arena Advantage</h3>
+              <p>The arena component is designed to capture home environments where historical performance against the betting market has been materially stronger than the visiting team's road performance.</p>
+              <div class="method-formula">Arena Matchup Differential = Home Team Home ATS% − Visiting Team Road ATS%</div>
+              <p>If the differential is <strong>+8.0 percentage points or greater</strong>, the home team receives a relative Arena Advantage and the visitor receives one Arena Disadvantage factor. The factor changes the net matchup by one; it is not counted twice.</p>
+              <p><strong>Team Arena Profile</strong>, shown on the Arena Advantage tab, is a different descriptive statistic: a team's own Home ATS% minus its own Road ATS%.</p>
+            </section>
+
+            <section class="method-card">
+              <h3>8. Travel and location</h3>
+              <p>Travel from the previous game is measured as great-circle distance between venues using their latitude and longitude. This provides a consistent approximation of geographic travel burden, but it is not intended to reproduce the exact flight path or door-to-door itinerary.</p>
+              <p>Time-zone changes use venue UTC offsets on the relevant game dates so daylight-saving changes are reflected where applicable.</p>
+            </section>
+
+            <section class="method-card full">
+              <h3>Interpretation and limitations</h3>
+              <div class="method-caution"><strong>Schedule Loss is a schedule-context model, not a game prediction model.</strong> The current version gives each active factor equal weight and is intended to identify unusually favorable or difficult scheduling situations. It does not yet estimate how many points a factor is worth or the probability that a team wins or covers the spread. Player availability, team strength, injuries, lineup changes, pace, opponent quality, exact travel itineraries, and other basketball variables are outside the present calculation. The factor definitions and weights can be tested and refined once historical game outcomes are incorporated.</div>
+              <h4>Why relative comparison matters</h4>
+              <p>A difficult schedule condition is not automatically a Schedule Loss. If both teams arrive under the same burden, the conditions may largely cancel. The model therefore emphasizes <strong>relative disadvantage within a matchup</strong>, then aggregates those differences to evaluate the overall schedule faced by each team.</p>
+            </section>
+          </div>
+        </div>
       </section>
 
       <section class="page-note"><h3>Data architecture</h3><p>The page reads <strong>data/schedule-database.json</strong> as the canonical game database and uses <strong>schedule-index-by-date.json</strong> and <strong>schedule-index-by-team.json</strong> for fast calendar and team lookup. This keeps one source of truth while supporting multiple front-end views.</p></section>
